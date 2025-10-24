@@ -1,0 +1,53 @@
+#include <Servo.h>
+
+const int redLedPin = 13;
+const int yellowLedPin = 12;
+const int greenLedPin = 11;
+
+const int barrierDown = 0;
+const int barrierUp = 90;
+
+Servo trafficBarrier;
+
+void setup() {
+  pinMode(redLedPin, OUTPUT);
+  pinMode(yellowLedPin, OUTPUT);
+  pinMode(greenLedPin, OUTPUT);
+
+  trafficBarrier.attach(9);
+  
+  trafficBarrier.write(barrierDown);
+}
+
+void loop() {
+  // Green Light (Go)
+  digitalWrite(greenLedPin, HIGH);
+  digitalWrite(yellowLedPin, LOW);
+  digitalWrite(redLedPin, LOW);
+  
+  trafficBarrier.write(barrierUp); 
+  
+  delay(5000); 
+  
+  // Yellow Light (Prepare to Stop)
+  digitalWrite(greenLedPin, LOW);
+  digitalWrite(yellowLedPin, HIGH);
+  
+  delay(2000); 
+  
+  // Red Light (Stop)
+  digitalWrite(yellowLedPin, LOW);
+  digitalWrite(redLedPin, HIGH);
+  
+  trafficBarrier.write(barrierDown);
+  
+  delay(5000); 
+
+  // Yellow Light (Prepare to Go)
+  digitalWrite(redLedPin, LOW);
+  digitalWrite(yellowLedPin, HIGH);
+  
+  delay(2000); 
+  
+  digitalWrite(yellowLedPin, LOW);
+}
